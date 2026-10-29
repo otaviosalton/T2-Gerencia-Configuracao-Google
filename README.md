@@ -15,47 +15,50 @@
 
 ---
 
-## 🎯 Sobre o Caso: Binary Authorization for Borg
-Este repositório documenta a prática interna do Google conhecida como **Binary Authorization for Borg**. Esta técnica de segurança exige que, antes de qualquer binário rodar em produção, existam provas assinadas criptograficamente de cada etapa pela qual o artefato passou, garantindo que o código foi revisado, compilado através de um *build* oficial e devidamente verificado[cite: 3]. 
-
-Esta prática é a origem do framework open-source **SLSA (Supply chain Levels for Software Artifacts)**[cite: 3].
+## ⚠️ Recado 
+*Daí Gurizada, como estamos em 5 e temos de 20 a 25 minutos para apresentar (dá uns 4 a 5 minutos pra cada um), deixei aqui 5 sugestões de tópicos. A ideia é cada um escolher uma parte pra falar na apresentação e a partir disso montar os slides, no mesmo esquema que a gente fez no T1.*
 
 ---
 
-## 📌 Estrutura da Conferência Técnica
+## 🎯 Sobre o Caso: Binary Authorization for Borg
+Este repositório documenta a prática interna do Google conhecida como **Binary Authorization for Borg**. Esta técnica de segurança exige que, antes de qualquer binário rodar em produção, existam provas assinadas criptograficamente de cada etapa pela qual o artefato passou, garantindo que o código foi revisado, compilado através de um *build* oficial e devidamente verificado. 
 
-A nossa apresentação está estruturada no formato de conferência técnica, abordando os seguintes tópicos fundamentais:
+Esta prática é a origem do framework open-source **SLSA (Supply chain Levels for Software Artifacts)**.
+
+---
+
+## 📌 Estrutura da Conferência Técnica (Sugestão de Tópicos)
+
+Nossa apresentação seguirá o formato de uma conferência técnica, abordando os seguintes tópicos fundamentais:
 
 ### 1. O Problema: Ameaças na Cadeia de Suprimentos (Supply Chain)
-* *Responsável: [Nome do integrante]*
-* Contextualização sobre como ataques modernos focam na esteira de *build* e infraestrutura de CI/CD em vez de atacar o código-fonte diretamente.
+* **Responsável:** [Nome do integrante]
+* **Foco:** Contextualização sobre como os ataques modernos focam na esteira de *build* e na infraestrutura de CI/CD em vez de atacar o código-fonte diretamente. Por que o Google precisou criar isso?
 
 ### 2. A Solução: Como funciona a Autorização Binária no Google
-* *Responsável: [Nome do integrante]*
-* Explicação do orquestrador (Borg) e do processo de validação de assinaturas em tempo de *deploy*.
-* Garantia de origem: Código revisado por pares e *builds* isolados e oficiais.
+* **Responsável:** [Nome do integrante]
+* **Foco:** Explicação do orquestrador (Borg) e do processo de validação de assinaturas em tempo de *deploy*. Mostrar a garantia de origem: código obrigatoriamente revisado por pares e *builds* isolados em servidores oficiais (não na máquina do dev).
 
 ### 3. Conexão com a Gerência de Configuração
-* *Responsável: [Nome do integrante]*
-* **Rastreabilidade e Auditoria:** Como saber exatamente qual versão do código gerou um binário específico.
-* **Integridade de Artefatos:** Garantia de que a configuração e o pacote de *deploy* são imutáveis e confiáveis.
+* **Responsável:** [Nome do integrante]
+* **Foco:** Ligar o caso prático com o que vimos na disciplina. Explicar conceitos como Rastreabilidade, Auditoria (saber qual versão do código gerou o binário) e a Imutabilidade/Integridade dos pacotes de *deploy*.
 
 ### 4. Indo Além: O nascimento do Framework SLSA
-* *Responsável: [Nome do integrante]*
-* Apresentação de como o Google abriu essa prática para a comunidade através do *Supply chain Levels for Software Artifacts* (SLSA).
+* **Responsável:** [Nome do integrante]
+* **Foco:** Atendendo à exigência de "ir além do material base", este tópico apresenta como o Google abriu essa prática interna para a comunidade de software através do *Supply chain Levels for Software Artifacts* (SLSA).
 
 ### 5. Demonstração / Conclusão Prática
-* *Responsável: [Nome do integrante]*
-* Resumo arquitetural e impacto da adoção destas práticas na indústria de software atual.
+* **Responsável:** [Nome do integrante]
+* **Foco:** Resumo arquitetural da solução e o impacto da adoção dessas práticas na indústria atual. Se possível, usar um diagrama rápido para ilustrar um *deploy* sendo bloqueado vs. permitido.
 
 ---
 
 ## 📁 Material de Apresentação
-* **[Link para os slides / PDF da apresentação]** *(Adicionar após a finalização)*
+* **[Link para os slides / PDF da apresentação]** *(Será adicionado após finalizarmos os slides)*
 
 ---
 
 ## 📚 Referências Iniciais
-* **Binary Authorization for Borg** (Documento técnico, Google Cloud)[cite: 3].
-* **How Google Does It: Using Binary Authorization to boost supply chain security** (Google Cloud, nov. 2025)[cite: 3].
-* *[Mais referências serão adicionadas durante o desenvolvimento da pesquisa]*
+* **Binary Authorization for Borg** (Documento técnico, Google Cloud).
+* **How Google Does It: Using Binary Authorization to boost supply chain security** (Google Cloud, nov. 2025).
+* *(Mais referências, com os devidos anos e autores, serão adicionadas durante a montagem dos slides)*
