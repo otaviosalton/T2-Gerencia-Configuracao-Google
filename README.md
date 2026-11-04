@@ -32,15 +32,15 @@ Esta prática é a origem do framework open-source **SLSA (Supply chain Levels f
 Nossa apresentação seguirá o formato de uma conferência técnica, abordando os seguintes tópicos fundamentais:
 
 ### 1. O Problema: Ameaças na Cadeia de Suprimentos (Supply Chain)
-* **Responsável:** Otávio Salton
+* **Responsável:** Otávio Cabalheiro Salton
 * **Foco:** Contextualização sobre como os ataques modernos focam na esteira de *build* e na infraestrutura de CI/CD em vez de atacar o código-fonte diretamente. Por que o Google precisou criar isso?
 
 ### 2. A Solução: Como funciona a Autorização Binária no Google
-* **Responsável:** Lucas Didoné
+* **Responsável:** Lucas Didoné de Oliveira
 * **Foco:** Explicação do orquestrador (Borg) e do processo de validação de assinaturas em tempo de *deploy*. Mostrar a garantia de origem: código obrigatoriamente revisado por pares e *builds* isolados em servidores oficiais (não na máquina do dev).
 
 ### 3. Conexão com a Gerência de Configuração
-* **Responsável:** [Nome do integrante]
+* **Responsável:** Miguel Angelo Moreschi Tome
 * **Foco:** Ligar o caso prático com o que vimos na disciplina. Explicar conceitos como Rastreabilidade, Auditoria (saber qual versão do código gerou o binário) e a Imutabilidade/Integridade dos pacotes de *deploy*.
 
 ### 4. Indo Além: O nascimento do Framework SLSA
