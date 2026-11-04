@@ -44,11 +44,11 @@ Nossa apresentação seguirá o formato de uma conferência técnica, abordando 
 * **Foco:** Ligar o caso prático com o que vimos na disciplina. Explicar conceitos como Rastreabilidade, Auditoria (saber qual versão do código gerou o binário) e a Imutabilidade/Integridade dos pacotes de *deploy*.
 
 ### 4. Indo Além: O nascimento do Framework SLSA
-* **Responsável:** [Nome do integrante]
+* **Responsável:** Pedro Carlesso
 * **Foco:** Atendendo à exigência de "ir além do material base", este tópico apresenta como o Google abriu essa prática interna para a comunidade de software através do *Supply chain Levels for Software Artifacts* (SLSA).
 
 ### 5. Demonstração / Conclusão Prática
-* **Responsável:** [Nome do integrante]
+* **Responsável:** Leonardo dos Anjos
 * **Foco:** Resumo arquitetural da solução e o impacto da adoção dessas práticas na indústria atual. Se possível, usar um diagrama rápido para ilustrar um *deploy* sendo bloqueado vs. permitido.
 
 ---
