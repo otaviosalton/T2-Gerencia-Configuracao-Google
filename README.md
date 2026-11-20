@@ -40,7 +40,31 @@ Para o Google — que opera um monorepo massivo e realiza milhares de *deploys* 
 
 ### 2. A Solução: Como funciona a Autorização Binária no Google
 * **Responsável:** Lucas Didoné de Oliveira
-* **Foco:** Explicação do orquestrador (Borg) e do processo de validação de assinaturas em tempo de deploy. Mostrar a garantia de origem: código obrigatoriamente revisado por pares e builds isolados em servidores oficiais (não na máquina do dev).
+
+O Binary Authorization for Borg, conhecido como BAB, é um mecanismo interno de segurança desenvolvido pelo Google para garantir que somente softwares confiáveis sejam executados em seus ambientes de produção. Seu principal objetivo é impedir que aplicações sem as devidas aprovações ou produzidas fora dos ambientes oficiais sejam executadas na infraestrutura da empresa.
+
+Essa solução está relacionada ao conceito de Zero Trust, ou Confiança Zero, que estabelece que nenhum usuário ou sistema deve receber confiança automaticamente. Na prática, isso significa que não basta um desenvolvedor ter autorização para acessar a infraestrutura: o software também precisa comprovar que passou pelos processos de segurança exigidos antes de chegar à produção.
+
+Para entender a importância dessa solução, imagine um desenvolvedor que compila um programa diretamente em seu próprio computador e envia o executável para os servidores da empresa. Se essa máquina estiver comprometida, o arquivo poderá conter alterações maliciosas ou códigos não autorizados. Para evitar esse risco, o Google estabeleceu um processo que controla desde a aprovação do código até a execução do programa.
+
+Esse processo funciona com base em três etapas principais:
+
+**A primeira etapa é a revisão obrigatória por pares, conhecida como Two-Party Review.**
+Isso significa que uma alteração no código não pode ser aprovada exclusivamente pelo próprio desenvolvedor que a realizou. Antes de ser incorporada ao projeto, ela precisa ser analisada e aprovada por outro profissional qualificado. Essa etapa ajuda a identificar erros, vulnerabilidades e alterações suspeitas, garantindo que o código passe por uma avaliação antes de seguir para a compilação.
+
+**A segunda etapa são os builds isolados, realizados em servidores oficiais do Google.**
+Depois de aprovado, o código é encaminhado para um ambiente de compilação controlado. Isso significa que o executável não deve ser produzido diretamente no computador pessoal do desenvolvedor para depois ser enviado à produção. A compilação acontece em servidores oficiais, com processos e dependências controlados. Ao final, são produzidas atestações criptográficas, que funcionam como evidências técnicas de que aquele binário foi gerado por um processo autorizado.
+
+Essas atestações permitem verificar informações importantes, como a origem do código e as condições utilizadas durante a compilação. Dessa forma, o sistema consegue diferenciar um software produzido pelo processo oficial de um arquivo cuja procedência não pode ser comprovada.
+
+**A terceira etapa é a validação durante o deploy, realizada pela integração entre o BAB e o Borg.**
+O Borg é o sistema de gerenciamento de clusters do Google, responsável por organizar os recursos computacionais e controlar a execução das aplicações em seus servidores. Antes de permitir que um programa seja executado, o Borg utiliza o BAB para verificar se o binário apresenta as assinaturas e as atestações exigidas pelas políticas de segurança.
+
+Se as evidências estiverem ausentes, forem inválidas ou não atenderem aos requisitos estabelecidos, a execução será bloqueada. Por outro lado, se o software cumprir todas as condições exigidas, ele poderá ser executado no ambiente de produção.
+
+Na prática, podemos comparar esse funcionamento a um controle de segurança: não basta o programa chegar ao servidor, ele precisa comprovar que foi produzido e aprovado de acordo com as regras estabelecidas pelo Google.
+
+Portanto, o Binary Authorization for Borg demonstra como o Google utiliza processos de revisão, ambientes de compilação controlados e verificações criptográficas para proteger sua infraestrutura. O grande diferencial da solução é que a segurança não depende apenas da confiança nas pessoas, mas também de evidências técnicas verificadas automaticamente antes da execução do software.
 
 ### 3. Conexão com a Gerência de Configuração
 * **Responsável:** Miguel Angelo Moreschi Tome
