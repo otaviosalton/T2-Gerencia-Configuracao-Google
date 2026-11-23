@@ -12,10 +12,6 @@
 * Miguel Angelo Moreschi Tome
 
 ---
-
-## ⚠️ Recado
-Daí Gurizada, como estamos em 5 e temos de 20 a 25 minutos para apresentar (dá uns 4 a 5 minutos pra cada um), deixei aqui 5 sugestões de tópicos. A ideia é cada um escolher uma parte pra falar na apresentação e a partir disso montar os slides, no mesmo esquema que a gente fez no T1.
-
 ---
 
 ## 🎯 Sobre o Caso: Binary Authorization for Borg
@@ -25,9 +21,9 @@ Esta prática é a origem do framework open-source **SLSA (Supply chain Levels f
 
 ---
 
-## 📌 Estrutura da Conferência Técnica (Sugestão de Tópicos)
+## 📌 Estrutura da Conferência Técnica
 
-Nossa apresentação seguirá o formato de uma conferência técnica, abordando os seguintes tópicos fundamentais:
+Nossa apresentação segue o formato de uma conferência técnica, abordando os seguintes tópicos fundamentais:
 
 ### 1. O Problema: Ameaças na Cadeia de Suprimentos (Supply Chain)
 * **Responsável:** Otávio Cabalheiro Salton
@@ -68,7 +64,16 @@ Portanto, o Binary Authorization for Borg demonstra como o Google utiliza proces
 
 ### 3. Conexão com a Gerência de Configuração
 * **Responsável:** Miguel Angelo Moreschi Tome
-* **Foco:** Ligar o caso prático com o que vimos na disciplina. Explicar conceitos como Rastreabilidade, Auditoria (saber qual versão do código gerou o binário) e a Imutabilidade/Integridade dos pacotes de deploy.
+
+O Binary Authorization for Borg (BAB) não substitui sistemas de controle de versão nem as demais práticas de Gerência de Configuração, mas atua como um mecanismo complementar essencial que conecta o histórico de desenvolvimento ao momento da implantação em produção.
+
+Essa integração reflete diretamente seis pilares fundamentais da disciplina:
+* **Identificação de Itens de Configuração:** Garante que o binário implantado seja exatamente o mesmo artefato gerado a partir de código-fonte, dependências e processos de *build* devidamente identificados e autorizados.
+* **Controle de Mudanças:** Impõe regras automatizadas para que nenhuma alteração chegue à produção sem aprovação por pares e compilação em ambiente confiável.
+* **Rastreabilidade:** Associa cada artefato às suas atestações assinadas, permitindo saber exatamente de onde veio determinada versão e por quais etapas ela passou.
+* **Auditoria:** Fornece evidências técnicas claras para investigar e comprovar por que um determinado pacote foi autorizado ou bloqueado pelo orquestrador.
+* **Integridade da Configuração:** Substitui a confiança implícita por verificações criptográficas de procedência antes da execução.
+* **Gerenciamento de Releases e Implantações:** Atua como uma barreira final de governança, assegurando que apenas versões conhecidas, controladas e aderentes às políticas da organização sejam liberadas.
 
 ### 4. Indo Além: O nascimento do Framework SLSA
 * **Responsável:** Pedro Henrique Carlesso
@@ -101,11 +106,10 @@ Além dos cenários pré-definidos, o simulador conta com um modo interativo par
 
 ## 📁 Material de Apresentação e Demonstração
 * **[Acessar Simulador Interativo BAB (Ao Vivo)](https://otaviosalton.github.io/T2-Gerencia-Configuracao-Google/simulador-bab.html)** — Demonstração prática interativa rodando via GitHub Pages (código-fonte em [`simulador-bab.html`](./simulador-bab.html)).
-* **[Link para os slides / PDF da apresentação]** *(Será adicionado após finalizarmos os slides)*
 
 ---
 
-## 📚 Referências Iniciais
-* **Binary Authorization for Borg** (Documento técnico, Google Cloud).
-* **How Google Does It: Using Binary Authorization to boost supply chain security** (Google Cloud, nov. 2025).
-* *(Mais referências, com os devidos anos e autores, serão adicionadas durante a montagem dos slides)*
+## 📚 Referências
+* **Google.** *Binary Authorization for Borg*. Google Cloud Documentation. Disponível em: <https://docs.cloud.google.com/docs/security/binary-authorization-for-borg>
+* **Google Cloud.** *How Google Does It: Using Binary Authorization to boost supply chain security*. Novembro de 2025. Disponível em: <https://cloud.google.com/transform/how-google-does-it-using-binary-authorization-to-boost-supply-chain-security>
+* **SLSA.** *Supply-chain Levels for Software Artifacts*. Documentação oficial do framework. Disponível em: <https://slsa.dev/>
