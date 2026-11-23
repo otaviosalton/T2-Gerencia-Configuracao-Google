@@ -81,11 +81,20 @@ O conceito central do SLSA é a **Proveniência**: um registro que descreve exat
 **Diferença fundamental (BAB vs. SLSA):**
 Enquanto o **BAB** é o mecanismo interno de execução do Google (integrado ao orquestrador Borg para barrar ativamente os *deploys* que não possuem assinaturas), o **SLSA** é uma especificação aberta e padronizada. Ele define os níveis e formatos recomendados de atestação de segurança para que qualquer organização no mundo decida como aplicá-los à sua própria infraestrutura.
 
-### 5. Demonstração / Conclusão Prática
-* **Responsável:** Leonardo dos Anjos
-* **Foco:** Resumo arquitetural da solução e o impacto da adoção dessas práticas na indústria atual. Se possível, usar um diagrama rápido para ilustrar um deploy sendo bloqueado vs. permitido.
+### 5. Demonstração Interativa / Conclusão Prática
+* **Responsável:** Leonardo Ronsani dos Anjos
+
+Para ilustrar na prática como uma política de autorização atua na barreira de *deploy*, desenvolvemos um **Simulador Interativo do Binary Authorization for Borg** (`simulador-bab.html`).
+
+A ferramenta permite simular o fluxo de decisão do orquestrador diante de três cenários reais:
+* **Cenário A (Versão Aprovada):** Código revisado, *build* oficial, atestação válida e integridade verificada — resultando em **Deploy Autorizado (`ALLOW`)**.
+* **Cenário B (Build Não Confiável):** Artefato compilado fora do ambiente oficial — resultando em **Deploy Bloqueado (`DENY`)**.
+* **Cenário C (Arquivo Adulterado):** Pacote modificado após a emissão da evidência (detectado via divergência real de *hash* SHA-256) — resultando em **Deploy Bloqueado (`DENY`)**.
+
+Além dos cenários pré-definidos, o simulador conta com um modo interativo para alterar regras de revisão, *build*, atestação e conteúdo do artefato em tempo real, demonstrando o impacto prático do controle de procedência e integridade na proteção de ambientes de produção.
 
 ---
+
 
 ---
 
