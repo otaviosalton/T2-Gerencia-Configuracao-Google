@@ -12,10 +12,6 @@
 * Miguel Angelo Moreschi Tome
 
 ---
-
-## ⚠️ Recado
-Daí Gurizada, como estamos em 5 e temos de 20 a 25 minutos para apresentar (dá uns 4 a 5 minutos pra cada um), deixei aqui 5 sugestões de tópicos. A ideia é cada um escolher uma parte pra falar na apresentação e a partir disso montar os slides, no mesmo esquema que a gente fez no T1.
-
 ---
 
 ## 🎯 Sobre o Caso: Binary Authorization for Borg
@@ -71,17 +67,25 @@ Portanto, o Binary Authorization for Borg demonstra como o Google utiliza proces
 * **Foco:** Ligar o caso prático com o que vimos na disciplina. Explicar conceitos como Rastreabilidade, Auditoria (saber qual versão do código gerou o binário) e a Imutabilidade/Integridade dos pacotes de deploy.
 
 ### 4. Indo Além: O nascimento do Framework SLSA
-* **Responsável:** Pedro Carlesso
-* **Foco:** Atendendo à exigência de "ir além do material base", este tópico apresenta como o Google abriu essa prática interna para a comunidade de software através do Supply chain Levels for Software Artifacts (SLSA).
+* **Responsável:** Pedro Henrique Carlesso
+
+Com o aumento alarmante de ataques à integridade de pacotes de software (como os casos da SolarWinds e Codecov), a indústria carecia de um framework completo para proteger toda a cadeia de suprimentos de ponta a ponta. 
+
+Como o Google já utilizava o BAB internamente com sucesso por mais de oito anos, a empresa decidiu abrir esse conhecimento para o mercado. Em 2021, o Google apresentou o **SLSA (Supply chain Levels for Software Artifacts)** — um projeto diretamente inspirado no BAB — e o doou para a fundação OpenSSF.
+
+O conceito central do SLSA é a **Proveniência**: um registro que descreve exatamente qual entidade construiu o artefato, por qual processo e a partir de quais entradas. O framework é adotável de forma incremental através de "trilhas", começando pela trilha de *build*, dividida em níveis:
+* **Nível 1:** A proveniência mostra de forma clara como o pacote foi construído.
+* **Nível 2:** A proveniência é assinada criptograficamente e gerada por uma plataforma de build hospedada, protegendo contra adulterações *após* a compilação.
+* **Nível 3:** A própria plataforma de build é blindada e reforçada, protegendo o código contra adulterações *durante* a compilação.
+
+**Diferença fundamental (BAB vs. SLSA):**
+Enquanto o **BAB** é o mecanismo interno de execução do Google (integrado ao orquestrador Borg para barrar ativamente os *deploys* que não possuem assinaturas), o **SLSA** é uma especificação aberta e padronizada. Ele define os níveis e formatos recomendados de atestação de segurança para que qualquer organização no mundo decida como aplicá-los à sua própria infraestrutura.
 
 ### 5. Demonstração / Conclusão Prática
 * **Responsável:** Leonardo dos Anjos
 * **Foco:** Resumo arquitetural da solução e o impacto da adoção dessas práticas na indústria atual. Se possível, usar um diagrama rápido para ilustrar um deploy sendo bloqueado vs. permitido.
 
 ---
-
-## 📁 Material de Apresentação
-* **[Link para os slides / PDF da apresentação]** *(Será adicionado após finalizarmos os slides)*
 
 ---
 
