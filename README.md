@@ -83,14 +83,14 @@ Enquanto o **BAB** é o mecanismo interno de execução do Google (integrado ao 
 ### 5. Demonstração Interativa / Conclusão Prática
 * **Responsável:** Leonardo Ronsani dos Anjos
 
-Para ilustrar na prática como uma política de autorização atua na barreira de *deploy*, desenvolvemos um **Simulador Interativo do Binary Authorization for Borg** (`simulador-bab.html`)[cite: 3, 6].
+Para ilustrar na prática como uma política de autorização atua na barreira de *deploy*, desenvolvemos um **Simulador Interativo do Binary Authorization for Borg** (`simulador-bab.html`)
 
-A ferramenta permite simular o fluxo de decisão do orquestrador diante de três cenários reais[cite: 3]:
-* **Cenário A (Versão Aprovada):** Código revisado, *build* oficial, atestação válida e integridade verificada — resultando em **Deploy Autorizado (`ALLOW`)**[cite: 3].
-* **Cenário B (Build Não Confiável):** Artefato compilado fora do ambiente oficial — resultando em **Deploy Bloqueado (`DENY`)**[cite: 3].
-* **Cenário C (Arquivo Adulterado):** Pacote modificado após a emissão da evidência (detectado via divergência real de *hash* SHA-256) — resultando em **Deploy Bloqueado (`DENY`)**[cite: 3].
+A ferramenta permite simular o fluxo de decisão do orquestrador diante de três cenários reais:
+* **Cenário A (Versão Aprovada):** Código revisado, *build* oficial, atestação válida e integridade verificada — resultando em **Deploy Autorizado (`ALLOW`)**
+* **Cenário B (Build Não Confiável):** Artefato compilado fora do ambiente oficial — resultando em **Deploy Bloqueado (`DENY`)**
+* **Cenário C (Arquivo Adulterado):** Pacote modificado após a emissão da evidência (detectado via divergência real de *hash* SHA-256) — resultando em **Deploy Bloqueado (`DENY`)**
 
-Além dos cenários pré-definidos, o simulador conta com um modo interativo para alterar regras de revisão, *build*, atestação e conteúdo do artefato em tempo real, demonstrando o impacto prático do controle de procedência e integridade na proteção de ambientes de produção[cite: 3].
+Além dos cenários pré-definidos, o simulador conta com um modo interativo para alterar regras de revisão, *build*, atestação e conteúdo do artefato em tempo real, demonstrando o impacto prático do controle de procedência e integridade na proteção de ambientes de produção
 
 ---
 
