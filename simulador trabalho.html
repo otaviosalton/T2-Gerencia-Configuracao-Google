@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Binary Authorization for Borg — Simulador Interativo</title>
+  <style>
+    :root{--bg:#07111e;--panel:#101e30;--panel2:#14263b;--line:#273e55;--text:#edf5ff;--muted:#a2b7cf;--cyan:#6ce7f2;--blue:#7fafff;--green:#50e4a0;--red:#ff7f8e;--amber:#ffd27d;--radius:17px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-width:320px;background:radial-gradient(ellipse 70% 45% at 12% -18%,#153e65 0%,transparent 85%),radial-gradient(ellipse 75% 40% at 96% 0%,#133047 0%,transparent 72%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,textarea,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+    .container{max-width:1380px;margin:auto;padding:24px 30px 32px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1px solid var(--line);padding-bottom:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#234d75,#103044);border:1px solid #4d7d9c;display:grid;place-items:center;box-shadow:inset 0 0 0 5px #ffffff06;color:var(--cyan);font-size:25px;font-weight:800}
+    .brand-name{font-size:19px;font-weight:780;letter-spacing:-.4px;line-height:1.15}
+    .brand-sub{font-size:12px;color:var(--muted);margin-top:3px}
+    .top-right{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .pill{font-size:11px;letter-spacing:.08em;font-weight:760;border:1px solid #375c75;color:#b5d0ee;background:#15304b;padding:7px 11px;border-radius:20px;white-space:nowrap}
+    .btn{border:1px solid #41617e;background:#193049;color:var(--text);border-radius:10px;padding:9px 14px;font-weight:700;transition:.16s ease}
+    .btn:hover:not(:disabled){filter:brightness(1.17);transform:translateY(-1px)}
+    .btn:disabled{opacity:.45;cursor:wait}
+    .hero{display:flex;justify-content:space-between;gap:25px;align-items:center;margin:26px 0 22px}
+    .eyebrow{font-weight:800;color:var(--cyan);letter-spacing:.18em;text-transform:uppercase;font-size:11px;margin-bottom:6px}
+    h1{font-size:clamp(28px,3.2vw,45px);line-height:1.12;letter-spacing:-1.7px;margin:0 0 8px}
+    h1 span{color:var(--cyan)}
+    .hero p{color:var(--muted);margin:0;max-width:750px;font-size:15px}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    h2{font-size:17px;letter-spacing:-.3px;margin:0}
+    .helper{color:var(--muted);font-size:12px}
+    .scenarios{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+    .scenario{position:relative;min-height:116px;text-align:left;color:var(--text);border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(140deg,#102135,#102035);padding:17px 17px 15px;overflow:hidden;transition:.16s ease}
+    .scenario:hover{border-color:#6095b5;transform:translateY(-2px)}
+    .scenario.active{border-color:var(--cyan);box-shadow:0 0 0 1px #6ce7f233,0 8px 28px #07111d}
+    .scenario .topline{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:6px}
+    .scenario .letter{font-size:12px;font-weight:850;letter-spacing:.12em;color:var(--cyan)}
+    .scenario .expected{font-size:11px;font-weight:800;white-space:nowrap;color:var(--muted)}
+    .scenario h3{font-size:16px;line-height:1.2;margin:0 0 5px}
+    .scenario p{font-size:12px;color:var(--muted);margin:0}
+    .scenario.active:after{content:"";width:100%;height:3px;position:absolute;bottom:0;left:0;background:var(--cyan)}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);gap:17px;align-items:start}
+    .panel{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(145deg,#102137,#0e1b2c);box-shadow:0 16px 50px #00000012;overflow:hidden}
+    .panel-heading{border-bottom:1px solid var(--line);padding:16px 20px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .panel-heading h2{font-size:17px}
+    .panel-body{padding:19px 20px 21px}
+    .tiny{font-size:12px;color:var(--muted)}
+    .policy-line{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:#bbd1e9;font-size:12px;margin-bottom:17px}
+    .policy-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--cyan);background:#081a2c;border:1px solid #284762;padding:6px 8px;border-radius:7px}
+    .steps{display:grid;gap:9px}
+    .step{display:grid;grid-template-columns:35px 1fr auto;gap:12px;align-items:center;background:#0b1a2b;border:1px solid #263c53;border-radius:11px;padding:12px 13px;transition:.2s ease;min-height:65px}
+    .step .num{width:33px;height:33px;display:grid;place-items:center;background:#1b344d;color:#b8d0ea;border:1px solid #35536e;border-radius:9px;font-size:12px;font-weight:800}
+    .step strong{display:block;font-size:13px}
+    .step .desc{font-size:11px;color:var(--muted);margin-top:2px}
+    .step .state{font-size:11px;font-weight:850;letter-spacing:.03em;color:#8da8c5;text-transform:uppercase;white-space:nowrap}
+    .step.checking{border-color:var(--blue);background:#122945}
+    .step.checking .state{color:var(--blue)}
+    .step.ok{border-color:#2c765c;background:#0d2b2a}
+    .step.ok .num{background:#164d3b;border-color:#2f8963;color:var(--green)}
+    .step.ok .state{color:var(--green)}
+    .step.no{border-color:#93485a;background:#341e2a}
+    .step.no .num{background:#592535;border-color:#b95169;color:var(--red)}
+    .step.no .state{color:var(--red)}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+    .deploy{border:none;background:linear-gradient(100deg,#73f0e9,#79b4ff);color:#061628;font-size:14px;font-weight:850;border-radius:11px;padding:12px 22px;box-shadow:0 6px 22px #28d1d219;flex:1}
+    .deploy:hover:not(:disabled){filter:brightness(1.07);transform:translateY(-1px)}
+    .deploy:disabled{opacity:.6;cursor:wait}
+    .outcome{min-height:182px;border:1px solid #33516b;border-radius:14px;background:radial-gradient(ellipse at 80% 0%,#173a55,#091a2c 75%);padding:22px 19px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:.25s ease}
+    .outcome .symbol{font-size:39px;line-height:1;margin-bottom:10px;color:#9ec8ed}
+    .outcome strong{font-size:25px;letter-spacing:-.7px;line-height:1.2}
+    .outcome p{font-size:12px;max-width:420px;margin:7px 0 0;color:var(--muted)}
+    .outcome.approved{background:radial-gradient(ellipse at 70% 0%,#174e41,#0b231e 77%);border-color:#2d8462}
+    .outcome.approved .symbol,.outcome.approved strong{color:var(--green)}
+    .outcome.denied{background:radial-gradient(ellipse at 70% 0%,#5b2d3b,#291822 77%);border-color:#a34c61}
+    .outcome.denied .symbol,.outcome.denied strong{color:var(--red)}
+    .outcome.running .symbol{animation:pulse 1.2s infinite}
+    @keyframes pulse{50%{opacity:.4;transform:scale(.85)}}
+    .right-stack{display:grid;gap:16px}
+    .terminal{background:#061321;border:1px solid #2b465c;border-radius:13px;margin-top:15px;overflow:hidden}
+    .terminal-header{padding:8px 13px;background:#112338;color:#8eafcc;border-bottom:1px solid #294157;font-size:11px;font-weight:800;display:flex;justify-content:space-between}
+    .terminal pre{min-height:108px;max-height:161px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin:0;padding:13px 15px;font:11px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;color:#a9d7e3}
+    .danger-text{color:var(--red)}
+    .detail-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;margin-bottom:16px}
+    .toggle{display:flex;align-items:center;gap:8px;border:1px solid #2c465d;background:#0b1b2d;border-radius:9px;padding:10px;min-height:49px;cursor:pointer;font-size:11px;font-weight:650;color:#cce0f2}
+    .toggle input{accent-color:var(--cyan);width:17px;height:17px;flex:none;cursor:pointer}
+    .artifact-box{padding-top:12px;border-top:1px solid #263d52}
+    .artifact-box textarea{display:block;width:100%;margin:8px 0 10px;min-height:77px;resize:vertical;border-radius:10px;border:1px solid #355571;background:#071625;color:#c7e2f4;padding:11px;font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}
+    .hash-table{display:grid;grid-template-columns:86px minmax(0,1fr);gap:5px 8px;align-items:center;font-size:11px;color:var(--muted)}
+    .hash-value{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#b9e1f4}
+    .hash-value.match{color:var(--green)}
+    .hash-value.mismatch{color:var(--red)}
+    .artifact-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+    .btn-small{font-size:11px;padding:8px 11px;background:#183349;border-color:#34536d}
+    .explain{font-size:11px;color:#b2c8df;margin:12px 0 0;line-height:1.5}
+    @media (max-width:1050px){.workspace{grid-template-columns:1fr}.right-stack{grid-template-columns:1fr 1fr}.right-stack .panel:last-child{grid-column:2}}
+    @media (max-width:740px){.container{padding:18px 14px 24px}.top,.hero{align-items:flex-start}.top{flex-direction:column}.top-right{justify-content:flex-start}.scenarios{grid-template-columns:1fr}.scenario{min-height:90px}.right-stack{grid-template-columns:1fr}.right-stack .panel:last-child{grid-column:auto}.panel-body{padding:15px}.step{grid-template-columns:29px 1fr auto;gap:8px}.check-grid{grid-template-columns:1fr 1fr}.brand-name{font-size:16px}.hero{margin:21px 0}}
+    @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<main class="container">
+  <header class="top">
+    <div class="brand"><div class="brand-icon" aria-hidden="true">◈</div><div><div class="brand-name">Binary Authorization <span style="color:var(--cyan)">/ Borg</span></div><div class="brand-sub">Gerência de Configuração • Grupo B</div></div></div>
+    <div class="top-right"><button class="btn" id="fullscreen" type="button">⛶ Tela cheia</button></div>
+  </header>
+
+  <section class="hero">
+    <div><div class="eyebrow">Demonstração interativa • Google BAB</div><h1>Você deixaria esse código <span>entrar em produção?</span></h1><p>Escolha uma versão, execute o deploy e acompanhe como uma política inspirada no Binary Authorization for Borg verifica a procedência do software.</p></div>
+  </section>
+
+  <section aria-labelledby="scenario-title">
+    <div class="section-head"><h2 id="scenario-title">01 — Escolha o cenário</h2></div>
+    <div class="scenarios" role="group" aria-label="Cenários de deploy">
+      <button type="button" class="scenario active" id="scenario-a" data-scenario="a" aria-pressed="true"><div class="topline"><span class="letter">CENÁRIO A</span><span class="expected">✓ ESPERADO: AUTORIZADO</span></div><h3>Versão aprovada</h3><p>Código revisado, build oficial, evidências e hash válidos.</p></button>
+      <button type="button" class="scenario" id="scenario-b" data-scenario="b" aria-pressed="false"><div class="topline"><span class="letter">CENÁRIO B</span><span class="expected">✕ ESPERADO: BLOQUEADO</span></div><h3>Build não confiável</h3><p>O artefato foi compilado fora do ambiente autorizado.</p></button>
+      <button type="button" class="scenario" id="scenario-c" data-scenario="c" aria-pressed="false"><div class="topline"><span class="letter">CENÁRIO C</span><span class="expected">✕ ESPERADO: BLOQUEADO</span></div><h3>Arquivo adulterado</h3><p>O pacote foi modificado depois da emissão da evidência.</p></button>
+    </div>
+  </section>
+
+  <section class="workspace" aria-label="Simulação de autorização">
+    <div class="panel">
+      <div class="panel-heading"><h2>02 — Verificações antes do deploy</h2><span class="pill">BAB + BORG PRIME</span></div>
+      <div class="panel-body">
+        <div class="policy-line"><span>Identidade do serviço: <strong>servico-pagamentos@producao</strong></span><span class="policy-code">policy: exigir_evidencias</span></div>
+        <div class="steps" id="steps" aria-live="polite">
+          <div class="step" data-check="review"><div class="num">01</div><div><strong>Revisão do código-fonte</strong><div class="desc">Outra pessoa aprovou a mudança?</div></div><span class="state">Pendente</span></div>
+          <div class="step" data-check="build"><div class="num">02</div><div><strong>Identidade do build</strong><div class="desc">Compilado no ambiente autorizado?</div></div><span class="state">Pendente</span></div>
+          <div class="step" data-check="attestation"><div class="num">03</div><div><strong>Atestação de procedência</strong><div class="desc">Há uma evidência válida vinculada ao artefato?</div></div><span class="state">Pendente</span></div>
+          <div class="step" data-check="hash"><div class="num">04</div><div><strong>Integridade do pacote (SHA-256)</strong><div class="desc">O conteúdo ainda corresponde ao hash registrado?</div></div><span class="state">Pendente</span></div>
+          <div class="step" data-check="config"><div class="num">05</div><div><strong>Política da configuração</strong><div class="desc">Parâmetros e configuração estão aprovados?</div></div><span class="state">Pendente</span></div>
+        </div>
+        <div class="actions"><button class="deploy" id="deploy" type="button">▶ Solicitar deploy em produção</button><button class="btn" id="reset" type="button">↺ Reiniciar</button></div>
+        <p class="explain">As cinco verificações precisam passar. Se uma falhar, a política bloqueia o início da aplicação. O resultado é ilustrativo, não é uma comunicação com servidores do Google.</p>
+      </div>
+    </div>
+
+    <div class="right-stack">
+      <div class="panel">
+        <div class="panel-heading"><h2>03 — Decisão de segurança</h2><span class="tiny" id="result-tag">Aguardando solicitação</span></div>
+        <div class="panel-body">
+          <div class="outcome" id="outcome" role="status" aria-live="polite"><span class="symbol" id="result-icon">◌</span><strong id="result-title">Aguardando deploy</strong><p id="result-text">Selecione um cenário e clique em “Solicitar deploy em produção”.</p></div>
+          <div class="terminal"><div class="terminal-header"><span>▣ LOG DE AUDITORIA • BAB</span><span id="counter">0 / 5</span></div><pre id="log" aria-live="polite">[READY] Política carregada.
+[READY] Nenhum deploy solicitado.</pre></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading"><h2>04 — Experimente alterar as regras</h2><span class="tiny">Modo interativo</span></div>
+        <div class="panel-body">
+          <div class="detail-head"><span class="tiny">Marque/desmarque e tente um novo deploy.</span><button class="btn btn-small" id="restore-scenario" type="button">Restaurar cenário</button></div>
+          <div class="check-grid">
+            <label class="toggle"><input type="checkbox" id="reviewed" checked /> Revisão aprovada</label>
+            <label class="toggle"><input type="checkbox" id="trustedBuild" checked /> Build oficial</label>
+            <label class="toggle"><input type="checkbox" id="signedAttestation" checked /> Atestação presente e válida*</label>
+            <label class="toggle"><input type="checkbox" id="configApproved" checked /> Configuração revisada</label>
+          </div>
+          <div class="artifact-box">
+            <div class="detail-head"><strong style="font-size:12px">Conteúdo ilustrativo do artefato</strong><span class="tiny">Edite para adulterar</span></div>
+            <textarea id="artifact" spellcheck="false" aria-label="Conteúdo ilustrativo do artefato"></textarea>
+            <div class="hash-table"><span>Hash registrado</span><span class="hash-value" id="expected-hash" title="Hash SHA-256 esperado"></span><span>Hash recebido</span><span class="hash-value" id="actual-hash" title="Hash SHA-256 calculado"></span></div>
+            <div class="artifact-actions"><button class="btn btn-small" id="tamper" type="button">⚠ Adulterar arquivo</button><button class="btn btn-small" id="restore-artifact" type="button">✓ Restaurar arquivo</button></div>
+          </div>
+          <p class="explain">*A presença/validade da atestação e a confiança no build são simuladas por opções. Somente o cálculo SHA-256 do conteúdo é real. Não são criadas nem verificadas assinaturas criptográficas verdadeiras.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<script>
+'use strict';
+// Simulação educacional. SHA-256 real para comparar conteúdo; atestação e assinatura simuladas.
+const ORIGINAL = 'aplicacao=servico-pagamentos\nversao=1.4.2\ncommit=a83f9c2\nmensagem=release-aprovada';
+const MODIFIED = 'aplicacao=servico-pagamentos\nversao=1.4.2\ncommit=a83f9c2\nmensagem=release-alterada-sem-revisao';
+const byId=id=>document.getElementById(id);
+const controls=['reviewed','trustedBuild','signedAttestation','configApproved'];
+let selected='a', busy=false, token=0, modified=false;
+
+// SHA-256 puro em JS, sem bibliotecas externas e funcional offline.
+function sha256(input){
+  const data=new TextEncoder().encode(input), n=Math.ceil((data.length+9)/64)*64, bytes=new Uint8Array(n);
+  bytes.set(data);bytes[data.length]=128;
+  const bits=data.length*8, dv=new DataView(bytes.buffer);
+  dv.setUint32(n-8,Math.floor(bits/4294967296));dv.setUint32(n-4,bits>>>0);
+  const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const rotr=(x,r)=>(x>>>r)|(x<<(32-r));
+  for(let off=0;off<n;off+=64){
+    const w=new Uint32Array(64);
+    for(let i=0;i<16;i++) w[i]=dv.getUint32(off+4*i);
+    for(let i=16;i<64;i++){
+      let s0=rotr(w[i-15],7)^rotr(w[i-15],18)^(w[i-15]>>>3);
+      let s1=rotr(w[i-2],17)^rotr(w[i-2],19)^(w[i-2]>>>10);
+      w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0;
+    }
+    let [a,b,c,d,e,f,g,h]=H;
+    for(let i=0;i<64;i++){
+      const s1=rotr(e,6)^rotr(e,11)^rotr(e,25),ch=(e&f)^(~e&g);
+      const t1=(h+s1+ch+K[i]+w[i])>>>0;
+      const s0=rotr(a,2)^rotr(a,13)^rotr(a,22),maj=(a&b)^(a&c)^(b&c);
+      const t2=(s0+maj)>>>0;
+      h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0;
+    }
+    H=H.map((x,i)=>(x+[a,b,c,d,e,f,g,h][i])>>>0);
+  }
+  return H.map(x=>x.toString(16).padStart(8,'0')).join('');
+}
+const canonicalHash=sha256(ORIGINAL);
+const steps=[
+  {id:'review',ok:()=>byId('reviewed').checked, pass:'Revisão por outra pessoa confirmada.',fail:'Código sem aprovação de revisor autorizado.'},
+  {id:'build',ok:()=>byId('trustedBuild').checked,pass:'Identidade do builder na lista de confiança.',fail:'Builder não reconhecido pela política do serviço.'},
+  {id:'attestation',ok:()=>byId('signedAttestation').checked,pass:'Atestação demonstrativa presente e aceita.',fail:'Atestação ausente ou inválida.'},
+  {id:'hash',ok:()=>sha256(byId('artifact').value)===canonicalHash,pass:'Digest SHA-256 corresponde à referência.',fail:'Digest diferente: conteúdo alterado após a referência.'},
+  {id:'config',ok:()=>byId('configApproved').checked,pass:'Configuração aprovada para esta identidade.',fail:'Configuração não atende à política do serviço.'}
+];
+function updateHashes(){
+  const actual=sha256(byId('artifact').value),match=actual===canonicalHash;
+  byId('expected-hash').textContent=canonicalHash;
+  byId('actual-hash').textContent=actual;
+  byId('expected-hash').title=canonicalHash;
+  byId('actual-hash').title=actual;
+  byId('actual-hash').className='hash-value '+(match?'match':'mismatch');
+  modified=!match;
+}
+function resetDisplay(){
+  token++;busy=false;
+  steps.forEach(s=>{const el=document.querySelector(`[data-check="${s.id}"]`);el.className='step';el.querySelector('.state').textContent='Pendente'});
+  const out=byId('outcome');out.className='outcome';
+  byId('result-icon').textContent='◌';byId('result-title').textContent='Aguardando deploy';
+  byId('result-text').textContent='Clique em “Solicitar deploy em produção” para verificar o pacote.';
+  byId('result-tag').textContent='Aguardando solicitação';
+  byId('counter').textContent='0 / 5';
+  byId('log').textContent='[READY] Política carregada.\n[READY] Nenhum deploy solicitado.';
+  byId('deploy').disabled=false;byId('deploy').textContent='▶ Solicitar deploy em produção';
+  document.querySelectorAll('.scenario').forEach(btn=>{btn.disabled=false;});
+}
+function chooseScenario(which){
+  if(busy)return;
+  selected=which;
+  controls.forEach(k=>byId(k).checked=true);
+  byId('trustedBuild').checked=which!=='b';
+  byId('artifact').value=which==='c'?MODIFIED:ORIGINAL;
+  document.querySelectorAll('.scenario').forEach(btn=>{const active=btn.dataset.scenario===which;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});
+  updateHashes();resetDisplay();
+}
+function logLine(message){const p=byId('log');p.textContent+='\n'+message;p.scrollTop=p.scrollHeight;}
+function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+async function deploy(){
+  if(busy)return;
+  resetDisplay();busy=true;
+  const current=++token;
+  byId('deploy').disabled=true;byId('deploy').textContent='⏳ Verificando evidências…';
+  const out=byId('outcome');out.className='outcome running';
+  byId('result-icon').textContent='◈';byId('result-title').textContent='Verificando pacote…';
+  byId('result-text').textContent='O controlador consulta a política antes de iniciar o serviço.';
+  byId('result-tag').textContent='Verificação em andamento';
+  byId('log').textContent='[REQUEST] Novo deploy solicitado ao Borg Prime.\n[POLICY] Consultando política: exigir_evidencias';
+  const failed=[];
+  for(let i=0;i<steps.length;i++){
+    if(current!==token)return;
+    const s=steps[i],el=document.querySelector(`[data-check="${s.id}"]`);
+    el.className='step checking';el.querySelector('.state').textContent='Verificando…';
+    await delay(540);
+    if(current!==token)return;
+    const ok=s.ok();el.className='step '+(ok?'ok':'no');el.querySelector('.state').textContent=ok?'✓ Aprovado':'✕ Falhou';
+    if(!ok) failed.push(s.fail);
+    logLine(`[${String(i+1).padStart(2,'0')}/05] ${ok?'PASS':'FAIL'} • ${ok?s.pass:s.fail}`);
+    byId('counter').textContent=`${i+1} / 5`;
+  }
+  await delay(300);
+  if(current!==token)return;
+  if(failed.length===0){
+    out.className='outcome approved';
+    byId('result-icon').textContent='✓';byId('result-title').textContent='DEPLOY AUTORIZADO';
+    byId('result-text').textContent='Todas as verificações passaram. O serviço está autorizado a iniciar nesta simulação.';
+    byId('result-tag').textContent='POLICY: ALLOW';
+    logLine('[BAB] ALLOW • Todas as exigências foram atendidas.');
+    logLine('[BORG] Job liberado para inicialização (simulado).');
+  }else{
+    out.className='outcome denied';
+    byId('result-icon').textContent='✕';byId('result-title').textContent='DEPLOY BLOQUEADO';
+    byId('result-text').textContent=`${failed.length} verificação(ões) falharam. ${failed[0]} O serviço não será iniciado.`;
+    byId('result-tag').textContent='POLICY: DENY';
+    logLine('[BAB] DENY • Política do serviço não atendida.');
+    logLine('[BORG] Inicialização do job recusada (simulado).');
+  }
+  busy=false;byId('deploy').disabled=false;byId('deploy').textContent='▶ Executar novamente';
+}
+function onEdit(){if(busy)resetDisplay();else resetDisplay();updateHashes();}
+document.querySelectorAll('.scenario').forEach(btn=>btn.addEventListener('click',()=>chooseScenario(btn.dataset.scenario)));
+byId('deploy').addEventListener('click',deploy);
+byId('reset').addEventListener('click',()=>chooseScenario(selected));
+byId('restore-scenario').addEventListener('click',()=>chooseScenario(selected));
+byId('artifact').addEventListener('input',onEdit);
+controls.forEach(id=>byId(id).addEventListener('change',()=>resetDisplay()));
+byId('tamper').addEventListener('click',()=>{byId('artifact').value=MODIFIED;onEdit()});
+byId('restore-artifact').addEventListener('click',()=>{byId('artifact').value=ORIGINAL;onEdit()});
+byId('fullscreen').addEventListener('click',async()=>{try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else if(document.fullscreenElement)await document.exitFullscreen();}catch(e){alert('Tela cheia não está disponível neste navegador.')}});
+document.addEventListener('keydown',event=>{if(['TEXTAREA','INPUT'].includes(document.activeElement.tagName))return;if(['1','2','3'].includes(event.key))chooseScenario({1:'a',2:'b',3:'c'}[event.key]);});
+chooseScenario('a');
+</script>
+</body>
+</html>
